@@ -133,6 +133,8 @@ func listenForButtonPress(outChannel chan string) {
 		panic(clientErr)
 	}
 
+	log.Debug("Listening")
+
 	for {
 		p, _, err := arpClient.Read()
 		if err != nil {
