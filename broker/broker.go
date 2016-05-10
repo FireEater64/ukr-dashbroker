@@ -122,7 +122,7 @@ func sendSMSAsync(recipient string, message string, wg *sync.WaitGroup) {
 }
 
 func listenForButtonPress(outChannel chan string) {
-	iface, ifaceErr := net.InterfaceByName("eth0")
+	iface, ifaceErr := net.InterfaceByName("en0")
 	if ifaceErr != nil {
 		log.Criticalf("Error obtaining interface: %s", ifaceErr.Error())
 		panic(ifaceErr)
