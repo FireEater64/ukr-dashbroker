@@ -1,4 +1,4 @@
-package dashbroker
+package database
 
 import (
 	"time"
@@ -52,6 +52,15 @@ func GetAllActiveHousemates() []Housemate {
 	return housemates
 }
 
+func GetAllActiveHousematesNumbers() []string {
+	var numbers []string
+
+	checkDBSession()
+	db.Select("phone_number").Where("active = ?", true).Find(&numbers)
+
+	return numbers
+}
+
 func GetAllButtons() []Button {
 	var buttons []Button
 
@@ -62,7 +71,7 @@ func GetAllButtons() []Button {
 }
 
 func newDatabaseSession() *gorm.DB {
-	connection, err := gorm.Open(Configuration.DatabaseType, Configuration.DatabaseConnectionString)
+	connection, err := gorm.Open(configuration.DatabaseType, configuration.DatabaseConnectionString)
 
 	if err != nil {
 		log.Criticalf("Error connecting to DB: %s", err)
