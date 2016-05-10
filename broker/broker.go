@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/FireEater64/clockwork-go"
-	"github.com/FireEater64/dashbroker"
+	"github.com/FireEater64/ukr-dashbroker"
 	log "github.com/cihub/seelog"
 	"github.com/mdlayher/arp"
 	"io/ioutil"
