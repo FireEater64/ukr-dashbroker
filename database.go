@@ -62,7 +62,7 @@ func GetAllButtons() []Button {
 }
 
 func newDatabaseSession() *gorm.DB {
-	connection, err := gorm.Open(configuration.DatabaseType, configuration.DatabaseConnectionString)
+	connection, err := gorm.Open(Configuration.DatabaseType, Configuration.DatabaseConnectionString)
 
 	if err != nil {
 		log.Criticalf("Error connecting to DB: %s", err)

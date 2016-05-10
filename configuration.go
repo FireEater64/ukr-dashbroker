@@ -1,8 +1,9 @@
 package dashbroker
 
 import (
-	"gopkg.in/yaml.v2"
 	"io/ioutil"
+
+	"gopkg.in/yaml.v2"
 
 	log "github.com/cihub/seelog"
 )
@@ -13,7 +14,7 @@ type Config struct {
 	ClockworkSMSApiKey       string `yaml:"clockworkApiKey"`
 }
 
-var configuration Config
+var Configuration Config
 
 func LoadConfiguration(fileName string) {
 	configFile, fileErr := ioutil.ReadFile(fileName)
@@ -23,7 +24,7 @@ func LoadConfiguration(fileName string) {
 		panic(fileErr)
 	}
 
-	yamlErr := yaml.Unmarshal(configFile, &configuration)
+	yamlErr := yaml.Unmarshal(configFile, &Configuration)
 
 	if yamlErr != nil {
 		log.Critical("Error whilst parsing yaml: %s", yamlErr)
