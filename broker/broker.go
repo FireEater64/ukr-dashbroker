@@ -1,16 +1,17 @@
 package main
 
 import (
-	"github.com/FireEater64/clockwork-go"
-	"github.com/FireEater64/ukr-dashbroker"
-	log "github.com/cihub/seelog"
-	"github.com/mdlayher/arp"
 	"io/ioutil"
 	"net"
 	"net/http"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/FireEater64/clockwork-go"
+	"github.com/FireEater64/ukr-dashbroker"
+	log "github.com/cihub/seelog"
+	"github.com/mdlayher/arp"
 )
 
 var wg sync.WaitGroup
@@ -22,7 +23,7 @@ func main() {
 	defer log.Flush()
 
 	dashbroker.LoadConfiguration("config.yml")
-	clock = clockwork.NewClockwork("a2aafa80a2a4775e989ca4014e135e3eacb0680a")
+	clock = clockwork.NewClockwork(dashbroker.Configuration.ClockworkSMSApiKey)
 
 	macAddressChannel := make(chan string, 10)
 
