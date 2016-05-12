@@ -53,10 +53,16 @@ func GetAllActiveHousemates() []Housemate {
 }
 
 func GetAllActiveHousematesNumbers() []string {
-	var numbers []string
+	var housemates []Housemate
 
 	checkDBSession()
-	db.Select("phone_number").Where("active = ?", true).Find(&numbers)
+	db.Select("phone_number").Where("active = ?", true).Find(&housemates)
+
+	numbers := make([]string, len(housemates))
+
+	for i, housemate := range housemates {
+		numbers[i] = housemate.PhoneNumber
+	}
 
 	return numbers
 }
