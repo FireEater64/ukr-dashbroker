@@ -64,6 +64,7 @@ func loadConfig() {
 	actionsConfig := actions.Configuration{}
 	actionsConfig.ClockworkAPIKey = mainConfig.ClockworkSMSAPIKey
 	actionsConfig.YoAPIKey = mainConfig.YoAPIKey
+	actionsConfig.YoLocation = mainConfig.YoLocation
 	actions.SetConfiguration(actionsConfig)
 }
 
@@ -83,6 +84,7 @@ type Config struct {
 	DatabaseConnectionString string `yaml:"databaseConnectionString"`
 	ClockworkSMSAPIKey       string `yaml:"clockworkApiKey"`
 	YoAPIKey                 string `yaml:"yoApiKey"`
+	YoLocation               string `yaml:"yoLocation"`
 }
 
 func loadMasterConfigurationFromFile(fileName string) *Config {
