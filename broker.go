@@ -36,6 +36,7 @@ func processMacAddress(givenMacAddress string) {
 		log.Debug("SmartWater Pressed")
 		housematesNumbers := database.GetAllActiveHousematesNumbers()
 		wg := actions.SendSMSMultipleAsync(housematesNumbers, "Dinner is ready!")
+		go actions.YoFromHome() // We don't really care if Yo suceeds or not
 		database.LogButtonPress(givenMacAddress, "DinnerNotification")
 		wg.Wait()
 	case "74:c2:46:84:ab:8e": // Nyan cat time
@@ -51,7 +52,7 @@ func loadFlags() {
 }
 
 func loadConfig() {
-	mainConfig := LoadConfiguration(configFile)
+	mainConfig := loadMasterConfigurationFromFile(configFile)
 
 	// Init database
 	dbConfig := database.Configuration{}
@@ -61,7 +62,8 @@ func loadConfig() {
 
 	// Init actions
 	actionsConfig := actions.Configuration{}
-	actionsConfig.ClockworkAPIKey = mainConfig.ClockworkSMSApiKey
+	actionsConfig.ClockworkAPIKey = mainConfig.ClockworkSMSAPIKey
+	actionsConfig.YoAPIKey = mainConfig.YoAPIKey
 	actions.SetConfiguration(actionsConfig)
 }
 
@@ -79,10 +81,11 @@ func initializeLogging() {
 type Config struct {
 	DatabaseType             string `yaml:"databaseType"`
 	DatabaseConnectionString string `yaml:"databaseConnectionString"`
-	ClockworkSMSApiKey       string `yaml:"clockworkApiKey"`
+	ClockworkSMSAPIKey       string `yaml:"clockworkApiKey"`
+	YoAPIKey                 string `yaml:"yoApiKey"`
 }
 
-func LoadConfiguration(fileName string) *Config {
+func loadMasterConfigurationFromFile(fileName string) *Config {
 	configFile, fileErr := ioutil.ReadFile(fileName)
 
 	if fileErr != nil {
