@@ -10,6 +10,7 @@ import (
 var clock *clockwork.Clockwork
 
 func SendSMS(recipient string, message string) {
+	checkClockwork()
 	toSend := clockwork.SMS{To: recipient, Message: message}
 	messageResponse := clock.SendSMS(toSend)
 	if messageResponse.SMSResult[0].ErrorMessage != "" {
@@ -33,12 +34,13 @@ func SendSMSAsync(recipient string, message string) *sync.WaitGroup {
 
 func SendSMSMultipleAsync(recipients []string, message string) *sync.WaitGroup {
 	wg := sync.WaitGroup{}
-	wg.Add(1)
-	defer wg.Done()
+	wg.Add(len(recipients))
 
 	for _, recipient := range recipients {
-		wg.Add(1)
-		go SendSMS(recipient, message)
+		go func(recipient string, message string) {
+			defer wg.Done()
+			SendSMS(recipient, message)
+		}(recipient, message)
 	}
 
 	return &wg
